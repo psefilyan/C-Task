@@ -72,7 +72,7 @@ namespace Medfar.Interview.DAL.Repositories
         public int Insert(User u)
         {
             _dbConnection = new SqlConnection(_connectionString);
-
+            u.id = Guid.NewGuid();
             string sqlQuery = @"INSERT INTO" +
                               " Users " +
                               "values ('" + u.id + "', '" + u.last_name + "', '" + u.first_name + "', '" + u.email + "', '" + u.date_created + "')";
@@ -119,6 +119,21 @@ namespace Medfar.Interview.DAL.Repositories
 
             return nbresult;
         }
+
+        public bool IsEmailUnique(string email)
+        {
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            var command = new SqlCommand("SELECT COUNT(*) FROM Users WHERE email = @Email", connection);
+            command.Parameters.AddWithValue("@Email", email);
+
+            connection.Open();
+            int count = (int)command.ExecuteScalar();
+
+            return count == 0;
+        }
+    }
+
 
     }
 }
