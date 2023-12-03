@@ -77,7 +77,7 @@ export class Example extends React.Component<{}, ExampleState> {
         const { filteredUsers, currentPage, itemsPerPage, searchQuery } = this.state;
         const indexOfLastItem = currentPage * itemsPerPage;
         const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-        const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
+       const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
     
         const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
     
@@ -104,13 +104,13 @@ export class Example extends React.Component<{}, ExampleState> {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.users.map(user => (
+                                    {currentItems.map((user,index) => (
                                         <tr>
-                                            <td>{user.id}</td>
+                                            <td>{indexOfFirstItem + index + 1 }</td>
                                             <td>{user.first_name}</td>
                                             <td>{user.last_name}</td>
                                             <td>{user.email}</td>
-                                            <td>{user.date_created}</td>
+                                            <td>{this.formatDate(user.date_created)}</td>
                                         </tr>
                                     ))}
                                 </tbody>
